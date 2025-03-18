@@ -59,9 +59,9 @@ async function setup() {
 
     for (let i = 0; i < 10; i++) {
       const { imageKey, similarity } = similarities[i];
-      const image = createImg(`images/${imageKey}.jpg`, 'image from unsplash');
-      image.parent(imagesDiv);
-      image.size(128, 128);
+      const img = createImg(`images/${imageKey}.jpg`, 'image from unsplash');
+      img.parent(imagesDiv);
+      img.size(128, 128);
       console.log(imageKey, similarity);
     }
   });
