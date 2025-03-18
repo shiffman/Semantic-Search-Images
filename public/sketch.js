@@ -8,7 +8,9 @@ async function loadTransformers() {
 }
 
 async function setup() {
-  noCanvas();
+  createCanvas(100, 20);
+  background(127);
+  let textInput = createInput('cat');
   let tfjs = await loadTransformers();
   let { AutoTokenizer, CLIPTextModelWithProjection, cos_sim } = tfjs;
 
@@ -19,37 +21,48 @@ async function setup() {
     {
       device: 'webgpu',
       dtype: 'q8',
-      progress_callback: (x) => console.log(x.status + ' ' + x.progress),
+      progress_callback: (x) => {
+        fill(0);
+        let w = x.process * 100 || 100;
+        rect(0, 0, w, 20);
+      },
     }
   );
 
-  // Run tokenization
-  const texts = ['cat'];
-  const text_inputs = tokenizer(texts, { padding: true, truncation: true });
+  let submit = createButton('submit');
+  let imagesDiv = createDiv();
+  submit.mousePressed(async () => {
+    // clear imagesDiv
+    imagesDiv.html('');
 
-  // Compute embeddings
-  const { text_embeds } = await text_model(text_inputs);
-  const text_embeddings = text_embeds.normalize().tolist();
-  console.log(text_embeddings);
+    const texts = [textInput.value()];
+    const text_inputs = tokenizer(texts, { padding: true, truncation: true });
 
-  let dbase = await loadJSON('embeddings/dbase.json');
-  let keys = Object.keys(dbase);
+    // Compute embeddings
+    const { text_embeds } = await text_model(text_inputs);
+    const text_embeddings = text_embeds.normalize().tolist();
+    console.log(text_embeddings);
 
-  let similarities = [];
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    const image_embeddings = dbase[key];
-    const similarity = cos_sim(text_embeddings[0], image_embeddings);
-    similarities.push({ key, similarity });
-  }
+    let dbase = await loadJSON('embeddings/dbase.json');
+    let keys = Object.keys(dbase);
 
-  similarities.sort((a, b) => b.similarity - a.similarity);
-  // console.log(similarities);
+    let similarities = [];
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const image_embeddings = dbase[key];
+      const similarity = cos_sim(text_embeddings[0], image_embeddings);
+      similarities.push({ key, similarity });
+    }
 
-  for (let i = 0; i < 10; i++) {
-    const { key, similarity } = similarities[i];
-    const image = createImg(`images/${key}.jpg`, 'image from unsplash');
-    image.size(128, 128);
-    console.log(key, similarity);
-  }
+    similarities.sort((a, b) => b.similarity - a.similarity);
+    // console.log(similarities);
+
+    for (let i = 0; i < 10; i++) {
+      const { key, similarity } = similarities[i];
+      const image = createImg(`images/${key}.jpg`, 'image from unsplash');
+      image.parent(imagesDiv);
+      image.size(128, 128);
+      console.log(key, similarity);
+    }
+  });
 }
