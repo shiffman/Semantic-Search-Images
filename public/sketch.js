@@ -48,8 +48,8 @@ async function setup() {
 
     let similarities = [];
     for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const image_embeddings = dbase[key];
+      const imageKey = keys[i];
+      const image_embeddings = dbase[imageKey];
       const similarity = cos_sim(text_embeddings[0], image_embeddings);
       similarities.push({ key, similarity });
     }
