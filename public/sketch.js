@@ -51,18 +51,18 @@ async function setup() {
       const imageKey = keys[i];
       const image_embeddings = dbase[imageKey];
       const similarity = cos_sim(text_embeddings[0], image_embeddings);
-      similarities.push({ key, similarity });
+      similarities.push({ imageKey, similarity });
     }
 
     similarities.sort((a, b) => b.similarity - a.similarity);
     // console.log(similarities);
 
     for (let i = 0; i < 10; i++) {
-      const { key, similarity } = similarities[i];
-      const image = createImg(`images/${key}.jpg`, 'image from unsplash');
+      const { imageKey, similarity } = similarities[i];
+      const image = createImg(`images/${imageKey}.jpg`, 'image from unsplash');
       image.parent(imagesDiv);
       image.size(128, 128);
-      console.log(key, similarity);
+      console.log(imageKey, similarity);
     }
   });
 }
