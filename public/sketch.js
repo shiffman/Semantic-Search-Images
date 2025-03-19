@@ -27,7 +27,7 @@ async function setup() {
         console.log(x);
         if (x.status === 'progress') {
           fill(0);
-          let w = x.process * width;
+          let w = (width * x.progress) / 100;
           rect(0, 0, w, 20);
         }
       },
