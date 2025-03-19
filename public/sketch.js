@@ -24,6 +24,7 @@ async function setup() {
       device: 'webgpu',
       dtype: 'fp16',
       progress_callback: (x) => {
+        console.log(x);
         fill(0);
         let w = x.process * 100 || 100;
         rect(0, 0, w, 20);
@@ -54,8 +55,9 @@ async function setup() {
     imagesDiv.html('');
 
     // Prepending 'A photo of a ' helps the model generate accurate embeddings for searching images
-    const texts = ['A photo of a ' + textInput.value().trim()];
+    const texts = ['photo of ' + textInput.value().trim()];
     // const texts = [textInput.value().trim()];
+    console.log(texts);
 
     const text_inputs = tokenizer(texts, { padding: true, truncation: true });
 
