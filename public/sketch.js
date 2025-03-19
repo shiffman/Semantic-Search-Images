@@ -25,9 +25,11 @@ async function setup() {
       dtype: 'fp16',
       progress_callback: (x) => {
         console.log(x);
-        fill(0);
-        let w = x.process * 100 || 100;
-        rect(0, 0, w, 20);
+        if (x.status === 'progress') {
+          fill(0);
+          let w = x.process * width;
+          rect(0, 0, w, 20);
+        }
       },
     }
   );
