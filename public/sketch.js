@@ -26,8 +26,11 @@ async function setup() {
       progress_callback: (x) => {
         console.log(x);
         if (x.status === 'progress') {
+          background(127);
           fill(0);
+          noStroke();
           let w = (width * x.progress) / 100;
+          // console.log(w);
           rect(0, 0, w, 20);
         }
       },
