@@ -69,10 +69,11 @@ for (let i = 0; i < photosTSV.length; i++) {
   const filePath = path.resolve(__dirname, 'public/images', filename);
 
   // Only download the image if it doesn't exist
-  if (!fs.existsSync(filePath)) {
-    log(`Downloading ${filename}: ${i + 1}/${photos.length}\r`);
-    await downloadImage(imageUrl, filename);
-  }
+  // No need to actually down the images but good to have the option
+  // if (!fs.existsSync(filePath)) {
+  //   log(`Downloading ${filename}: ${i + 1}/${photos.length}\r`);
+  //   await downloadImage(imageUrl, filename);
+  // }
 
   // Process the embedding
   const image = await RawImage.read(imageUrl);
