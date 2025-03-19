@@ -53,7 +53,10 @@ async function setup() {
     // clear imagesDiv
     imagesDiv.html('');
 
-    const texts = [textInput.value().trim()];
+    // Prepending 'A photo of a ' helps the model generate accurate embeddings for searching images
+    const texts = ['A photo of a ' + textInput.value().trim()];
+    // const texts = [textInput.value().trim()];
+
     const text_inputs = tokenizer(texts, { padding: true, truncation: true });
 
     // console.log('Input text:', texts);
