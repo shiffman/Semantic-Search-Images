@@ -76,16 +76,20 @@ for (let i = 0; i < photosTSV.length; i++) {
   // }
 
   // Process the embedding
-  const image = await RawImage.read(imageUrl);
-  const image_inputs = await processor(image);
-  const { image_embeds } = await vision_model(image_inputs);
-  const image_embeddings = image_embeds.normalize().tolist();
+  try {
+    const image = await RawImage.read(imageUrl);
+    const image_inputs = await processor(image);
+    const { image_embeds } = await vision_model(image_inputs);
+    const image_embeddings = image_embeds.normalize().tolist();
 
-  // Add to arrays
-  embeddings.push(image_embeddings[0]);
-  photos.push({ id: photo.photo_id, url: photo.photo_image_url });
+    // Add to arrays
+    embeddings.push(image_embeddings[0]);
+    photos.push({ id: photo.photo_id, url: photo.photo_image_url });
 
-  log(`Computed embeddings: ${i + 1}/${photosTSV.length}\r`);
+    log(`Computed embeddings: ${i + 1}/${photosTSV.length}\r`);
+  } catch (e) {
+    console.error(e);
+  }
 
   // Save every 500 cycles since it takes a long time to run
   if (i % 500 == 0) {

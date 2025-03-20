@@ -84,7 +84,7 @@ async function setup() {
     similarities.sort((a, b) => b.similarity - a.similarity);
     // console.log(similarities);
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 50; i++) {
       const { id, url, similarity } = similarities[i];
       // const img = createImg(`images/${photo_id}.jpg`, 'image from unsplash');
       // const img = createImg(`images/${id}.jpg`, 'image from unsplash');
