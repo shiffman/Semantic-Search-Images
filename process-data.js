@@ -101,10 +101,25 @@ for (let i = 0; i < photosTSV.length; i++) {
 writeData();
 
 function writeData() {
+  // Step 1: Flatten the nested array of embeddings into one long array
+  // Each embedding is a 512-dimensional array, and we have many of them
+  // The flat() method concatenates all subarrays into one long array
   let flattened = embeddings.flat();
+  
+  // Step 2: Convert to binary format (Float32Array)
+  // This creates a binary representation of our floating point numbers
+  // Each number uses exactly 4 bytes (32 bits) of memory
+  // Much more efficient than storing as strings in JSON
   const embeddingsBuffer = Buffer.from(new Float32Array(flattened).buffer);
+  
+  // Step 3: Write the binary data to a file
+  // The resulting .bin file is much smaller than equivalent JSON would be
   fs.writeFileSync('public/embeddings/embeddings.bin', embeddingsBuffer);
+  
+  // Save image metadata separately as JSON
+  // This is kept as JSON since it's smaller and we need the structure
   fs.writeFileSync('public/embeddings/photo.json', JSON.stringify(photos));
+  
   console.log(`Saved ${embeddings.length} embeddings and photo IDs.`);
 }
 

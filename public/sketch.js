@@ -37,15 +37,34 @@ async function setup() {
     }
   );
 
-  // Loading the embeddings
+  // Loading the embeddings from binary file
+  // Binary format is much faster to load than JSON for large numerical datasets
+  
+  // Step 1: Load the raw binary data file
   let rawData = await loadBytes('embeddings/embeddings.bin');
+  
+  // Step 2: Convert the raw binary data to a Float32Array (32-bit floating point numbers)
+  // Each floating point number takes 4 bytes, so we divide the byte length by 4
+  // This gives us one long array of all our embedding values
   let rawFloats = new Float32Array(rawData.buffer, rawData.byteOffset, rawData.byteLength / 4);
+  
+  // Step 3: Set up to split the data back into individual embeddings
+  // Each embedding vector has 512 dimensions (values)
   const length = 512;
+  
+  // Calculate how many individual embeddings we have
   const total = rawFloats.length / length;
+  
+  // Step 4: Recreate our array of individual embeddings
   let embeddings = [];
   for (let i = 0; i < total; i++) {
+    // Calculate where each embedding starts in the long array
     let start = i * length;
+    
+    // Extract just the 512 values for this embedding
     let embedding = rawFloats.slice(start, start + length);
+    
+    // Add it to our array of embeddings
     embeddings.push(embedding);
   }
 
