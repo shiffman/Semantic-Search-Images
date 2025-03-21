@@ -28,6 +28,7 @@ CLIP (Contrastive Language-Image Pre-training) is a neural network model develop
 - [OpenAI CLIP Paper](https://arxiv.org/abs/2103.00020)
 - [OpenAI CLIP Blog Post](https://openai.com/research/clip)
 - [Hugging Face CLIP Documentation](https://huggingface.co/docs/transformers/model_doc/clip)
+- 🎥 [How AI 'Understands' Images (CLIP) - Computerphile](https://youtu.be/KcSXcpluDe4)
 
 ## Saving and Loading Binary Data
 
