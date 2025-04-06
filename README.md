@@ -1,25 +1,6 @@
 # Semantic Search for Images
 
-This project will run with any image dataset, the embeddings included are for 25,000 images from the [Unsplash image dataset](https://unsplash.com/data). To generate the embeddings, first install node dependencies.
-
-```bash
-npm install
-```
-
-Then download the [Unsplash dataset files](https://github.com/unsplash/datasets) and place them in the `unsplash` directory.
-
-```bash
-node process-data.js
-```
-
-This will:
-
-- Process images from the Unsplash dataset
-- Generate CLIP embeddings for each image (mode: [clip-vit-base-patch16](https://huggingface.co/Xenova/clip-vit-base-patch16))
-- Save embeddings to `public/embeddings/embeddings.bin`
-- Save image metadata to `public/embeddings/photo.json`
-
-To run the p5.js sketch, start a local server to serve the `public` directory
+This sketch uses an embeddings database (`embeddings/embeddings.bin`, `embeddings/photos.json`) from this[Create Embeddings Database](https://github.com/shiffman/create-embeddings-database) node.js repo.
 
 ## What is CLIP?
 
@@ -50,7 +31,7 @@ let flattened = embeddings.flat();
 const embeddingsBuffer = Buffer.from(new Float32Array(flattened).buffer);
 
 // Write the binary data to a file
-fs.writeFileSync('public/embeddings/embeddings.bin', embeddingsBuffer);
+fs.writeFileSync('embeddings/embeddings.bin', embeddingsBuffer);
 ```
 
 ### Loading Embeddings
